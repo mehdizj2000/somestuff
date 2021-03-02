@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+    <div class="panel-heading" (click)="toggleIt()">
+        {{ title }}
+        <span class="glyphicon" [ngClass]= "{'glyphicon-menu-up':isExpanded, 'glyphicon-menu-down': !isExpanded}"
+        ></span>
+    </div>
+    <div *ngIf="isExpanded" class="panel-body">
+        <ng-content select=".body"></ng-content>
+    </div>
+</div>

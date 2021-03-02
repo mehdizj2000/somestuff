@@ -1,0 +1,29 @@
+<ul class="nav nav-pills">
+    <li [class.active]="viewMode == 'map'"><a (click)="viewMode = 'map'">map view</a></li>
+    <li [class.active]="viewMode == 'list'"><a (click)="viewMode = 'list'">list view</a></li>
+
+</ul>
+
+<ul>
+    <li *ngFor="let cour of courses; trackBy: trackByCourse">
+        {{ cour.name }}
+        <div class="glyphicon glyphicon-remove" (click)="removeCourse(cour)"></div>
+    </li>
+</ul>
+
+<input type="text" [mhdInputFormat]="'uppercase'">
+
+<div [ngSwitch]="viewMode">
+    <div *ngSwitchCase="'map'">Map view Content</div>
+    <div *ngSwitchCase="'list'">List view Content</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ng-content select=".heading"></ng-content>
+    </div>
+    <div class="panel-bodey">
+        <ng-content select=".body"></ng-content>
+    </div>
+    <span class="glyphicon glyphicon-heart" [class.liked]="isLiked" (click)="handleHeart()"></span>
+    <span>{{ numberOflikes }}</span>
+</div>

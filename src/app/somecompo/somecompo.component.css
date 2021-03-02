@@ -1,0 +1,12 @@
+.glyphicon {
+    color: blue;
+    cursor: pointer;
+}
+
+.liked {
+    color: red;
+}
+
+a:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,15 @@
+<form [formGroup]="form">
+    <div class="form-group">
+        <label for="title">New Title</label>
+        <input formControlName="title" type="text" class="form-control" id="title">
+    </div>
+    <input formControlName="id" type="hidden" id="id">
+    <button [disabled]="form.invalid" class="btn btn-primary" (click)="createPost()">Add New Title</button>
+</form>
+
+<ul class="list-group">
+    <li *ngFor="let post of posts" class="list-group-item">
+        <button class="btn btn-default btn-sm" (click)="updatePost(post)">Update</button>
+        {{post.id + '. ' + post.title }}
+    </li>
+</ul>

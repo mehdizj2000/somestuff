@@ -1,0 +1,19 @@
+<form #f="ngForm">
+    <div ngModelGroup="contact">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input required minlength="5" ngModel name="firstName" #firstName="ngModel" (change)="log(firstName)"
+                id="firstName" type="text" class="form-control">
+            <div class="alert alert-danger" *ngIf="firstName.touched && firstName.invalid">
+                <div *ngIf="firstName.errors.required">First Name is REQUIRED</div>
+                <div *ngIf="firstName.errors.minlength">First Name is too SHORT</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Comment</label><textarea ngModel name="comment" id="comment" cols="30" rows="10"
+                class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="btn btn-default">Submit</div>
+</form>
