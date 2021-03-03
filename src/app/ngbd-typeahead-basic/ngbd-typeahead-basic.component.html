@@ -1,0 +1,4 @@
+<input type="text" [formControl]="typeahead" placeholder="Type ahead !" (input)="suggest()">
+<div class="suggestions" *ngIf="suggestions.length">
+  <p *ngFor="let s of suggestions">{{s}}</p>
+</div>

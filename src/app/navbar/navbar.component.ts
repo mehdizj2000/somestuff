@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'navbar',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  isAuthenticated: boolean;
+  userName: string;
 
-  ngOnInit(): void {
+  constructor(public oktaAuth: OktaAuthService) {
+  }
+
+  ngOnInit() {
+    this.oktaAuth.$authenticationState.subscribe(res => {
+      this.isAuthenticated = res;
+      console.log(this.oktaAuth.getAccessToken());
+      this.oktaAuth.getUser().then(res => this.userName = res.name);
+    });
+  }
+
+  login() {
+    this.oktaAuth.signInWithRedirect({
+      originalUri: '/followers'
+    });
+  }
+
+  logout() {
+    this.oktaAuth.signOut();
   }
 
 }
