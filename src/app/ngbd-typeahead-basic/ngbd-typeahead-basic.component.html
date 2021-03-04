@@ -1,4 +1,4 @@
-<input type="text" [formControl]="typeahead" placeholder="Type ahead !" (input)="suggest()">
-<div class="suggestions" *ngIf="suggestions.length">
-  <p *ngFor="let s of suggestions">{{s}}</p>
-</div>
+<label for="typeahead-basic">Lookup Postcodes/Suburbs:</label>
+<input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter"/>
+<hr>
+<pre>Model: {{ model | json }}</pre>

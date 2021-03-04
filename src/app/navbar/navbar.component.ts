@@ -12,15 +12,14 @@ export class NavbarComponent implements OnInit {
   isAuthenticated: boolean;
   userName: string;
 
+  public isMenuCollapsed = true;
+
   constructor(public oktaAuth: OktaAuthService) {
   }
 
-  ngOnInit() {
-    this.oktaAuth.$authenticationState.subscribe(res => {
-      this.isAuthenticated = res;
-      console.log(this.oktaAuth.getAccessToken());
-      this.oktaAuth.getUser().then(res => this.userName = res.name);
-    });
+  async ngOnInit() {
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+    this.userName = (await this.oktaAuth.getUser()).name;
   }
 
   login() {

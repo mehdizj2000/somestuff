@@ -1,13 +1,9 @@
 <div class="media" *ngFor="let follower of followers">
-    <div class="media-left">
-        <a href="#">
-            <img class="media-object avatar img-circle" src="{{follower.avatar_url}}">
-        </a>
-    </div>
+    <img class="align-self-center mr-3 avatar" src="{{follower.avatar_url}}">
     <div class="media-body">
-        <h4 class="media-heading">
+        <h4 class="mt-0">
             <a [routerLink]="['/profile', follower.id]" [queryParams]="{page:0,order:'newest'}">{{follower.login}}</a>
         </h4>
-        {{follower.html_url}}
+        <p>{{follower.html_url}}</p>
     </div>
 </div>

@@ -21,6 +21,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { PostsComponent } from './posts/posts.component';
 import { OktaAuthGuard, OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 import { NgbdTypeaheadBasicComponent } from './ngbd-typeahead-basic/ngbd-typeahead-basic.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const CALLBACK_PATH = 'implicit/callback';
 
@@ -67,7 +68,8 @@ const config = {
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    OktaAuthModule
+    OktaAuthModule,
+    NgbModule
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: config }
