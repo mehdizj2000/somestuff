@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommDataComponent } from './comm-data/comm-data.component';
 import { GithubFollowersComponent } from './github-followers/github-followers.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -25,13 +25,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const CALLBACK_PATH = 'implicit/callback';
 
+export function onAuthRequired(oktaAuth, injector) {
+  const router = injector.get(Router);
+
+  // Redirect the user to your custom login page
+  router.navigate(['/home']);
+}
+
 const appRoutes: Routes = [
-  { path: CALLBACK_PATH, component: OktaCallbackComponent },
   { path: '', component: HomeComponent },
-  { path: 'followers', component: GithubFollowersComponent, canActivate: [ OktaAuthGuard ] },
-  { path: 'posts', component: PostsComponent, canActivate: [ OktaAuthGuard ] },
-  { path: 'profile/:id', component: ProfileComponent, canActivate: [ OktaAuthGuard ] },
-  { path: '**', component: NotFoundComponent, canActivate: [ OktaAuthGuard ] }
+  { path: 'home', component: HomeComponent },
+  { path: CALLBACK_PATH, component: OktaCallbackComponent },
+  { path: 'followers', component: GithubFollowersComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
+  { path: 'posts', component: PostsComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
+  { path: '**', component: NotFoundComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } }
   // Other routes...
 ];
 

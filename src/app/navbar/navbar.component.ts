@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import { from } from 'rxjs';
 
@@ -14,7 +15,15 @@ export class NavbarComponent implements OnInit {
 
   public isMenuCollapsed = true;
 
-  constructor(public oktaAuth: OktaAuthService) {
+  public toggleButton(){
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+    this.ngOnInit();
+  }
+
+  constructor(public oktaAuth: OktaAuthService, public router: Router) {
+    this.oktaAuth.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
   }
 
   async ngOnInit() {
@@ -28,8 +37,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  logout() {
-    this.oktaAuth.signOut();
+  async logout() {
+    await this.oktaAuth.signOut();
+    this.router.navigateByUrl('/');
   }
 
 }
