@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-sm-6 offset-sm-3">
+        <form [formGroup]="form">
+            <div class="form-group">
+                <label for="username">Email address</label>
+                <input type="email" formControlName="username" class="form-control" id="username">
+                
+            </div>
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" formControlName="firstname" autocomplete="off" class="form-control" aria-describedby="firstnameFeedback" [ngClass]="{'is-invalid': firstname.touched && firstname.invalid}"  id="firstname">
+                <div id="firstnameFeedback" [ngClass]="{'invalid-feedback': firstname.touched && firstname.invalid}">
+                    <div *ngIf="firstname.errors?.required">Please provide a first name.</div>
+                    <div *ngIf="firstname.errors?.minlength">First name must be at least {{ firstname.errors?.minlength.requiredLength }} characters.</div>
+                    <div *ngIf="firstname.errors?.maxlength">First name must be at most {{ firstname.errors?.maxlength.requiredLength }} characters.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" formControlName="lastname" class="form-control" aria-describedby="lastnameFeedback" [ngClass]="{'is-invalid': lastname.touched && lastname.invalid}" id="lastname">
+                <div id="lastnameFeedback" [ngClass]="{'invalid-feedback': lastname.touched && lastname.invalid}">
+                    <div *ngIf="lastname.errors?.required">Please provide a last name.</div>
+                    <div *ngIf="lastname.errors?.minlength">Last name must be at least {{ lastname.errors?.minlength.requiredLength }} characters.</div>
+                    <div *ngIf="lastname.errors?.maxlength">Last name must be at most {{ lastname.errors?.maxlength.requiredLength }} characters.</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>

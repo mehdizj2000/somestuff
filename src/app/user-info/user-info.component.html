@@ -1,0 +1,21 @@
+<p>{{ userClaims | json }}</p>
+
+<div class="row">
+    <div class="col-sm-6 offset-sm-3">
+        <dl class="row">
+
+            <dt class="col-sm-3">User Name: </dt>
+            <dd class="col-sm-9">{{ userClaims.email }}</dd>
+
+            <dt class="col-sm-3">First Name:</dt>
+            <dd class="col-sm-9">{{ userClaims.given_name }}</dd>
+
+            <dt class="col-sm-3">Last Name:</dt>
+            <dd class="col-sm-9">{{ userClaims.family_name }}</dd>
+
+            <dd class="col-sm-9 offset-sm-3">
+                <button class="btn btn-primary" [routerLink]="['/user-update', userClaims.email]">Modify</button>
+            </dd>
+        </dl>
+    </div>
+</div>

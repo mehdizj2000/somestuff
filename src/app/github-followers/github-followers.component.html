@@ -1,9 +1,15 @@
-<div class="media" *ngFor="let follower of followers">
-    <img class="align-self-center mr-3 avatar" src="{{follower.avatar_url}}">
-    <div class="media-body">
-        <h4 class="mt-0">
-            <a [routerLink]="['/profile', follower.id]" [queryParams]="{page:0,order:'newest'}">{{follower.login}}</a>
-        </h4>
-        <p>{{follower.html_url}}</p>
+<div class="card mb-3" style="max-width: 540px;" *ngFor="let follower of followers">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img class="img-thumbnail border-0 rounded-circle" src="{{follower.avatar_url}}" alt="...">
     </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h4 class="card-title">
+          <a [routerLink]="['/profile', follower.id]" [queryParams]="{page:0,order:'newest'}">{{follower.login}}</a>
+        </h4>
+        <p class="card-link">{{follower.html_url}}</p>
+      </div>
+    </div>
+  </div>
 </div>

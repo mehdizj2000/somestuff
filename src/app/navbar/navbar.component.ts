@@ -15,31 +15,35 @@ export class NavbarComponent implements OnInit {
 
   public isMenuCollapsed = true;
 
-  public toggleButton(){
+  public toggleButton() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
     this.ngOnInit();
   }
 
-  constructor(public oktaAuth: OktaAuthService, public router: Router) {
+  private getUserInfo() {
     this.oktaAuth.$authenticationState.subscribe(
-      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+      (isAuthenticated: boolean) => {
+        this.isAuthenticated = isAuthenticated;
+        if (isAuthenticated)
+          this.oktaAuth.getUser().then(res => {
+            console.log(res);
+            this.userName = res.name;
+          });
+      }
     );
   }
 
-  async ngOnInit() {
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-    this.userName = (await this.oktaAuth.getUser()).name;
+  constructor(public oktaAuth: OktaAuthService, public router: Router) {
+
   }
 
-  login() {
-    this.oktaAuth.signInWithRedirect({
-      originalUri: '/followers'
-    });
+  ngOnInit() {
+    this.getUserInfo();
   }
 
   async logout() {
     await this.oktaAuth.signOut();
-    this.router.navigateByUrl('/');
+    // this.router.navigateByUrl('/login');
   }
 
 }

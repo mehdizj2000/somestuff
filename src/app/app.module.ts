@@ -1,3 +1,4 @@
+import { LoginComponent } from './login/login.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,34 +23,31 @@ import { PostsComponent } from './posts/posts.component';
 import { OktaAuthGuard, OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 import { NgbdTypeaheadBasicComponent } from './ngbd-typeahead-basic/ngbd-typeahead-basic.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import sampleConfig from './app.config';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { UserUpdateComponent } from './user-update/user-update.component';
 
-const CALLBACK_PATH = 'implicit/callback';
+const CALLBACK_PATH = 'login/callback';
 
-export function onAuthRequired(oktaAuth, injector) {
-  const router = injector.get(Router);
-
-  // Redirect the user to your custom login page
-  router.navigate(['/home']);
-}
+const oktaConfig = Object.assign({
+  onAuthRequired: (oktaAuth, injector) => {
+    const router = injector.get(Router);
+    router.navigate(['/login']);
+  }
+}, sampleConfig.oidc);
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
   { path: CALLBACK_PATH, component: OktaCallbackComponent },
-  { path: 'followers', component: GithubFollowersComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
-  { path: 'posts', component: PostsComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
-  { path: 'profile/:id', component: ProfileComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } },
-  { path: '**', component: NotFoundComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired } }
+  { path: 'login', component: LoginComponent },
+  { path: 'followers', component: GithubFollowersComponent, canActivate: [OktaAuthGuard] },
+  { path: 'user-info', component: UserInfoComponent, canActivate: [OktaAuthGuard] },
+  { path: 'user-update/:username', component: UserUpdateComponent, canActivate: [OktaAuthGuard] },
+  { path: 'posts', component: PostsComponent, canActivate: [OktaAuthGuard]},
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [OktaAuthGuard] },
+  { path: '**', component: NotFoundComponent }
   // Other routes...
 ];
-
-const config = {
-  clientId: '0oa2eyj79sBmJWJ014x7',
-  issuer: 'https://dev-647801.okta.com/oauth2/default',
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  scopes: ['openid', 'profile', 'email'],
-  pkce: true
-};
 
 @NgModule({
   declarations: [
@@ -68,19 +66,21 @@ const config = {
     ProfileComponent,
     NotFoundComponent,
     PostsComponent,
-    NgbdTypeaheadBasicComponent
+    NgbdTypeaheadBasicComponent,
+    UserInfoComponent,
+    UserUpdateComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
     OktaAuthModule,
     NgbModule
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: config }
+    { provide: OKTA_CONFIG, useValue: oktaConfig }
   ],
   bootstrap: [AppComponent]
 })
